@@ -1,42 +1,139 @@
 # Hide My Tabs! - Build Makefile
-
+# Variables
 EXTENSION_NAME = hide-my-tabs
 VERSION = 1.0.0
 SRC_DIR = src
 BUILD_DIR = build
 DIST_DIR = dist
+CHROME_ZIP = $(EXTENSION_NAME)-chrome-$(VERSION).zip
+FIREFOX_XPI = $(EXTENSION_NAME)-firefox-$(VERSION).xpi
+FIREFOX_ZIP = $(EXTENSION_NAME)-firefox-$(VERSION).zip
 
-CHROME_ZIP = $(DIST_DIR)/$(EXTENSION_NAME)-chrome-$(VERSION).zip
-FIREFOX_XPI = $(DIST_DIR)/$(EXTENSION_NAME)-firefox-$(VERSION).xpi
-FIREFOX_ZIP = $(DIST_DIR)/$(EXTENSION_NAME)-firefox-$(VERSION).zip
+# Source directories and files
+SRC_DIRS = background content icons lib mask options popup
+SRC_FILES = manifest.json
 
-.PHONY: all clean chrome firefox
+# Files to exclude from the package
+EXCLUDE_PATTERNS = .git* .DS_Store *.md *.txt node_modules Makefile
 
-all: clean chrome firefox
+.PHONY: all clean build-chrome build-firefox dist-chrome dist-firefox dist help validate
 
-chrome: $(CHROME_ZIP)
+# Default target - build both
+all: dist
 
-$(CHROME_ZIP):
-	@echo "Building Chrome package..."
-	@mkdir -p $(BUILD_DIR)/chrome $(DIST_DIR)
-	@cp -r $(SRC_DIR)/* $(BUILD_DIR)/chrome/
-	@cd $(BUILD_DIR)/chrome && zip -q -r ../../$(CHROME_ZIP) . -x "*.DS_Store"
-	@echo "Created: $(CHROME_ZIP)"
+# Help target
+help:
+	@echo "Hide My Tabs - Build System"
+	@echo ""
+	@echo "Available targets:"
+	@echo "  make dist           - Create both Chrome and Firefox packages (default)"
+	@echo "  make dist-chrome    - Create Chrome distributable ZIP package"
+	@echo "  make dist-firefox   - Create Firefox distributable ZIP package"
+	@echo "  make build-chrome   - Create Chrome build directory only"
+	@echo "  make build-firefox  - Create Firefox build directory only"
+	@echo "  make clean          - Remove build and dist directories"
+	@echo "  make validate       - Validate manifest.json syntax"
+	@echo "  make help           - Show this help message"
+	@echo ""
+	@echo "Output:"
+	@echo "  Chrome:  $(DIST_DIR)/$(CHROME_ZIP)"
+	@echo "  Firefox: $(DIST_DIR)/$(FIREFOX_XPI) and $(DIST_DIR)/$(FIREFOX_ZIP)"
 
-firefox: $(FIREFOX_XPI) $(FIREFOX_ZIP)
+# Build both distributions
+dist: dist-chrome dist-firefox
+	@echo ""
+	@echo "=========================================="
+	@echo "Both packages created successfully!"
+	@echo "Chrome:  $(DIST_DIR)/$(CHROME_ZIP) ($(du -h $(DIST_DIR)/$(CHROME_ZIP) | cut -f1))"
+	@echo "Firefox: $(DIST_DIR)/$(FIREFOX_XPI) ($(du -h $(DIST_DIR)/$(FIREFOX_XPI) | cut -f1))"
+	@echo "         $(DIST_DIR)/$(FIREFOX_ZIP) ($(du -h $(DIST_DIR)/$(FIREFOX_ZIP) | cut -f1))"
+	@echo "=========================================="
 
-$(FIREFOX_XPI):
-	@echo "Building Firefox package (XPI)..."
-	@mkdir -p $(BUILD_DIR)/firefox $(DIST_DIR)
-	@cp -r $(SRC_DIR)/* $(BUILD_DIR)/firefox/
-	@cd $(BUILD_DIR)/firefox && zip -q -r ../../$(FIREFOX_XPI) . -x "*.DS_Store"
-	@echo "Created: $(FIREFOX_XPI)"
+# Create Chrome build directory
+build-chrome: clean
+	@echo "Creating Chrome build directory..."
+	@mkdir -p $(BUILD_DIR)/chrome
+	
+	@echo "Copying source files..."
+	@for dir in $(SRC_DIRS); do \
+		if [ -d $$dir ]; then \
+			echo "  - Copying $$dir/"; \
+			cp -r $$dir $(BUILD_DIR)/chrome/; \
+		fi \
+	done
+	
+	@echo "Creating Chrome manifest.json..."
+	@cat manifest.json | \
+		jq 'del(.background.scripts)' > $(BUILD_DIR)/chrome/manifest.json || \
+		(cat manifest.json > $(BUILD_DIR)/chrome/manifest.json && \
+		 echo "  ⚠ jq not found, using original manifest (may have warnings)")
+	
+	@echo "Chrome build directory created successfully!"
 
-$(FIREFOX_ZIP):
-	@echo "Building Firefox package (ZIP)..."
-	@cd $(BUILD_DIR)/firefox && zip -q -r ../../$(FIREFOX_ZIP) . -x "*.DS_Store"
-	@echo "Created: $(FIREFOX_ZIP)"
+# Create Firefox build directory
+build-firefox:
+	@echo ""
+	@echo "Creating Firefox build directory..."
+	@mkdir -p $(BUILD_DIR)/firefox
+	
+	@echo "Copying source files..."
+	@for dir in $(SRC_DIRS); do \
+		if [ -d $$dir ]; then \
+			echo "  - Copying $$dir/"; \
+			cp -r $$dir $(BUILD_DIR)/firefox/; \
+		fi \
+	done
+	
+	@echo "Creating Firefox manifest.json..."
+	@cat manifest.json | \
+		jq 'del(.background.service_worker, .data_collection_permissions)' > $(BUILD_DIR)/firefox/manifest.json || \
+		(cat manifest.json > $(BUILD_DIR)/firefox/manifest.json && \
+		 echo "  ⚠ jq not found, using original manifest (may have warnings)")
+	
+	@echo "Firefox build directory created successfully!"
 
+# Create Chrome distributable ZIP package
+dist-chrome: build-chrome
+	@echo ""
+	@echo "Creating Chrome distribution package..."
+	@mkdir -p $(DIST_DIR)
+	
+	@cd $(BUILD_DIR)/chrome && \
+		zip -r ../../$(DIST_DIR)/$(CHROME_ZIP) . \
+		-x $(EXCLUDE_PATTERNS)
+	
+	@echo "Chrome package created: $(DIST_DIR)/$(CHROME_ZIP)"
+
+# Create Firefox distributable ZIP package
+dist-firefox: build-firefox
+	@echo ""
+	@echo "Creating Firefox distribution packages..."
+	@mkdir -p $(DIST_DIR)
+	
+	@cd $(BUILD_DIR)/firefox && \
+		zip -r ../../$(DIST_DIR)/$(FIREFOX_XPI) . \
+		-x $(EXCLUDE_PATTERNS)
+	
+	@cd $(BUILD_DIR)/firefox && \
+		zip -r ../../$(DIST_DIR)/$(FIREFOX_ZIP) . \
+		-x $(EXCLUDE_PATTERNS)
+	
+	@echo "Firefox packages created:"
+	@echo "  - $(DIST_DIR)/$(FIREFOX_XPI) (for Firefox installation)"
+	@echo "  - $(DIST_DIR)/$(FIREFOX_ZIP) (for AMO submission)"
+
+# Clean build artifacts
 clean:
-	@rm -rf $(BUILD_DIR) $(DIST_DIR)
-	@echo "Cleaned build directories"
+	@echo "Cleaning build artifacts..."
+	@rm -rf $(BUILD_DIR)
+	@rm -rf $(DIST_DIR)
+	@echo "Clean complete!"
+
+# Validate manifest.json
+validate:
+	@echo "Validating manifest.json..."
+	@if command -v jq > /dev/null; then \
+		jq empty manifest.json && echo "✓ manifest.json is valid JSON"; \
+	else \
+		echo "⚠ jq not found, install with: brew install jq (macOS) or apt-get install jq (Linux)"; \
+	fi

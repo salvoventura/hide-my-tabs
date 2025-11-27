@@ -3,15 +3,46 @@
   "name": "Hide My Tabs!",
   "version": "1.0.0",
   "description": "Hide specific tabs or groups of tabs for privacy and restore them later.",
+  "homepage_url": "https://github.com/salvoventura/hide-my-tabs",
+
+  "icons": {
+    "16": "icons/not-visible-16.png",
+    "32": "icons/not-visible-32.png",
+    "64": "icons/not-visible-64.png",
+    "128": "icons/not-visible-128.png"
+  },
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "hide-my-tabs@salvoventura.com"
+    }
+  },
+
   "permissions": [
     "contextMenus",
     "storage",
     "tabs"
   ],
+
+  "data_collection_permissions": {
+    "not_in_private_browsing": true,
+    "data": {
+      "non_features": [],
+      "shared": []
+    }
+  },
+
   "background": {
     "service_worker": "background/background.js",
+    "scripts": ["background/background.js"],
     "type": "module"
   },
+
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
+
   "action": {
     "default_popup": "popup/popup.html",
     "default_icon": {
@@ -22,25 +53,11 @@
     },
     "default_title": "Hide My Tabs!"
   },
-  "options_ui": {
-    "page": "options/options.html",
-    "open_in_tab": true
-  },
-  "icons": {
-    "16": "icons/not-visible-16.png",
-    "32": "icons/not-visible-32.png",
-    "64": "icons/not-visible-64.png",
-    "128": "icons/not-visible-128.png"
-},
+
   "web_accessible_resources": [
     {
       "resources": ["mask/mask.html"],
       "matches": ["<all_urls>"]
     }
-  ],
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "hide-my-tabs@example.com"
-    }
-  }
+  ]
 }
