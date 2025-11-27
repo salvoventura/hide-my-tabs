@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hide My Tabs! - Options</title>
+  <link rel="stylesheet" href="../lib/bootstrap.min.css">
+  <link rel="stylesheet" href="../lib/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="options.css">
+</head>
+
+<body>
+  <!-- Header -->
+  <div class="page-header">
+    <div class="container">
+      <h2>
+        <i class="bi bi-shield-lock-fill"></i>
+        Hide My Tabs!
+      </h2>
+      <p class="page-subtitle">Privacy controls and documentation</p>
+    </div>
+  </div>
+
+  <div class="options-container">
+    <div class="row">
+      <div class="col-12">
+
+        <!-- Tabs Navigation -->
+        <ul class="nav nav-tabs mt-4" id="settingsTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings-panel" type="button" role="tab">
+              Settings
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="docs-tab" data-bs-toggle="tab" data-bs-target="#docs-panel" type="button" role="tab">
+              Documentation
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="about-tab" data-bs-toggle="tab" data-bs-target="#about-panel" type="button" role="tab">
+              About
+            </button>
+          </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content mt-3" id="settingsTabContent">
+          
+          <!-- Settings Tab -->
+          <div class="tab-pane fade show active" id="settings-panel" role="tabpanel">
+            
+            <!-- Appearance Section -->
+            <div class="card mb-3">
+              <div class="card-body">
+                <h4 class="card-title">
+                  <i class="bi bi-palette-fill me-2"></i>Appearance
+                </h4>
+                <p class="text-muted">
+                  Hidden tabs are replaced with a neutral "New Tab" style page that includes a privacy indicator. 
+                  This prevents others from seeing your tab content while maintaining a normal browser appearance.
+                </p>
+              </div>
+            </div>
+            
+            <!-- Privacy Section -->
+            <div class="card mb-3">
+              <div class="card-body">
+                <h4 class="card-title">
+                  <i class="bi bi-shield-check me-2"></i>Privacy
+                </h4>
+                
+                <div class="alert alert-info">
+                  <i class="bi bi-lock-fill me-2"></i>
+                  <strong>100% Local Storage:</strong> All data is stored locally in your browser. No information is ever sent to external servers.
+                </div>
+
+                <h5 class="mt-3">What Gets Stored</h5>
+                <ul>
+                  <li>Original tab URLs</li>
+                  <li>Tab titles</li>
+                  <li>Favicon URLs</li>
+                  <li>Saved session configurations</li>
+                  <li>Usage statistics</li>
+                </ul>
+
+                <h5 class="mt-3">Data Removal</h5>
+                <p>All stored data for a tab is automatically deleted when you unhide it or close the tab.</p>
+              </div>
+            </div>
+            
+            <!-- Actions -->
+            <div class="card mb-3">
+              <div class="card-body">
+                <h4 class="card-title">
+                  <i class="bi bi-lightning-fill me-2"></i>Actions
+                </h4>
+                <button type="button" class="btn btn-outline-danger" id="clearAllHidden">
+                  <i class="bi bi-trash-fill me-2"></i>Show All Hidden Tabs
+                </button>
+              </div>
+            </div>
+            
+            <!-- Status Toast -->
+            <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+              <div id="statusToast" class="toast" role="alert">
+                <div class="toast-header">
+                  <i class="bi bi-check-circle-fill text-success me-2"></i>
+                  <strong class="me-auto">Success</strong>
+                  <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                </div>
+                <div class="toast-body">
+                  Settings saved successfully!
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Documentation Tab -->
+          <div class="tab-pane fade" id="docs-panel" role="tabpanel">
+            
+            <div class="card mb-3">
+              <div class="card-body">
+                <h4 class="card-title">
+                  <i class="bi bi-question-circle-fill me-2"></i>How to Use
+                </h4>
+                
+                <h5 class="mt-4"><i class="bi bi-eye-slash me-2"></i>Hiding Tabs</h5>
+                <p><strong>Single Tab (Current):</strong></p>
+                <ol>
+                  <li>Click the extension icon to open the popup</li>
+                  <li>In the "Current Tab" section, click "Hide This Tab"</li>
+                  <li>The tab will be replaced with a mask page</li>
+                </ol>
+
+                <p class="mt-3"><strong>Multiple Tabs (Sessions):</strong></p>
+                <ol>
+                  <li>Click the extension icon to open the popup</li>
+                  <li>In the "Tab Sessions" section, select tabs using checkboxes</li>
+                  <li>Click "Hide Selected" to hide all selected tabs</li>
+                </ol>
+
+                <p class="mt-3"><strong>Using Context Menu:</strong></p>
+                <ol>
+                  <li>Select one or more tabs (Hold <kbd>Ctrl</kbd> or <kbd>Cmd</kbd> to select multiple)</li>
+                  <li>Right-click on a selected tab</li>
+                  <li>Select <strong>"Hide this tab"</strong> or <strong>"Hide other tabs"</strong></li>
+                </ol>
+
+                <h5 class="mt-4"><i class="bi bi-eye me-2"></i>Showing Tabs</h5>
+                <p><strong>Single Tab:</strong></p>
+                <ul>
+                  <li>Open popup on the hidden tab and click "Show This Tab"</li>
+                  <li>Or right-click anywhere and select <strong>"Unhide all tabs"</strong></li>
+                </ul>
+
+                <p class="mt-3"><strong>Multiple Tabs:</strong></p>
+                <ul>
+                  <li>Use the popup's "Unhide All" button</li>
+                  <li>Or right-click anywhere and select <strong>"Unhide all tabs"</strong></li>
+                </ul>
+
+                <h5 class="mt-4"><i class="bi bi-bookmark-plus me-2"></i>Saving Sessions</h5>
+                <ol>
+                  <li>Select tabs you want to save as a session</li>
+                  <li>Click "Save as Session"</li>
+                  <li>Enter a name for the session</li>
+                  <li>Click "Save"</li>
+                </ol>
+                <p class="text-muted">
+                  <small>Saved sessions appear in the popup and can be loaded with one click to reselect the same tabs.</small>
+                </p>
+
+                <div class="alert alert-success mt-4">
+                  <i class="bi bi-lightbulb-fill me-2"></i>
+                  <strong>Tip:</strong> In Firefox, you can right-click directly on the tab strip for quick access to hide options.
+                </div>
+              </div>
+            </div>
+
+            <div class="card mb-3">
+              <div class="card-body">
+                <h4 class="card-title">
+                  <i class="bi bi-shield-check me-2"></i>Privacy & Security
+                </h4>
+                
+                <div class="alert alert-info">
+                  <i class="bi bi-lock-fill me-2"></i>
+                  <strong>100% Local Storage:</strong> All data is stored locally in your browser. No URLs are ever sent to external servers.
+                </div>
+
+                <h5 class="mt-4">What Gets Stored</h5>
+                <ul>
+                  <li>Original tab URL</li>
+                  <li>Tab title</li>
+                  <li>Favicon URL (if available)</li>
+                  <li>Saved session configurations</li>
+                </ul>
+
+                <h5 class="mt-4">Data Removal</h5>
+                <p>When you unhide tabs or close hidden tabs, all stored data is automatically removed.</p>
+              </div>
+            </div>
+
+            <div class="card mb-3">
+              <div class="card-body">
+                <h4 class="card-title">
+                  <i class="bi bi-star-fill me-2"></i>Features
+                </h4>
+                
+                <div class="row mt-3">
+                  <div class="col-md-6 mb-3">
+                    <div class="feature-card">
+                      <i class="bi bi-cursor-fill text-primary fs-3"></i>
+                      <h6 class="mt-2">Multi-Select Support</h6>
+                      <p class="text-muted small">Hide multiple tabs at once</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <div class="feature-card">
+                      <i class="bi bi-bookmark-plus text-success fs-3"></i>
+                      <h6 class="mt-2">Session Management</h6>
+                      <p class="text-muted small">Save and load tab selections</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <div class="feature-card">
+                      <i class="bi bi-lightning-fill text-warning fs-3"></i>
+                      <h6 class="mt-2">Quick Toggle</h6>
+                      <p class="text-muted small">Instant hide/show from popup</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <div class="feature-card">
+                      <i class="bi bi-shield-lock-fill text-info fs-3"></i>
+                      <h6 class="mt-2">Privacy First</h6>
+                      <p class="text-muted small">All data stored locally</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- About Tab -->
+          <div class="tab-pane fade" id="about-panel" role="tabpanel">
+            
+            <!-- About Section -->
+            <div class="card mb-3">
+              <div class="card-body">
+                <h4 class="card-title">About Hide My Tabs!</h4>
+                
+                <p class="lead">
+                  Hide My Tabs! helps you maintain privacy by quickly hiding sensitive browser tabs.
+                </p>
+
+                <h5 class="mt-4">Version</h5>
+                <p>1.0.0 (Manifest V3)</p>
+
+                <h5 class="mt-4">Privacy</h5>
+                <p>
+                  This extension works entirely locally in your browser. No data is collected or sent to external servers.
+                </p>
+
+                <h5 class="mt-4">Key Features</h5>
+                <ul>
+                  <li>Hide single or multiple tabs with content masking</li>
+                  <li>Save and load tab selections as sessions</li>
+                  <li>Context menu integration for quick actions</li>
+                  <li>Cross-browser support (Chrome, Edge, Firefox)</li>
+                  <li>Manifest V3 compliant</li>
+                  <li>100% local data storage</li>
+                </ul>
+
+                <div class="alert alert-success mt-4">
+                  <h5>Thank You! 💚</h5>
+                  <p class="mb-0">
+                    Thank you for using Hide My Tabs! Your privacy matters. If you find this extension helpful, 
+                    please consider rating it on the store and sharing it with others.
+                  </p>
+                </div>
+
+                <h5 class="mt-4">Links</h5>
+                <p>
+                  <strong>GitHub Repository:</strong><br>
+                  <a href="https://github.com/" target="_blank" rel="noopener noreferrer">
+                    https://github.com/
+                  </a>
+                </p>
+                <p>
+                  <strong>Download for Firefox:</strong><br>
+                  <a href="http://example.com" target="_blank" rel="noopener noreferrer">
+                    Firefox Add-ons Store
+                  </a>
+                </p>
+                <p>
+                  <strong>Download for Chrome/Edge:</strong><br>
+                  <a href="http://example.com" target="_blank" rel="noopener noreferrer">
+                    Chrome Web Store
+                  </a>
+                </p>
+              </div>
+            </div>
+
+            <!-- Usage Statistics Section -->
+            <div class="card mb-3">
+              <div class="card-body">
+                <h4 class="card-title">Usage Statistics</h4>
+                <p class="text-muted">Track your tab hiding activity</p>
+
+                <div class="row mt-4">
+                  <div class="col-md-6 mb-3">
+                    <div class="card bg-light">
+                      <div class="card-body text-center">
+                        <h5 class="card-title">Total Hides</h5>
+                        <h2 class="display-4" id="stat-total-hides">0</h2>
+                        <p class="text-muted mb-0">Tabs hidden</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <div class="card bg-light">
+                      <div class="card-body text-center">
+                        <h5 class="card-title">Sessions Saved</h5>
+                        <h2 class="display-4" id="stat-sessions-saved">0</h2>
+                        <p class="text-muted mb-0">Tab selections saved</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <div class="card bg-light">
+                      <div class="card-body text-center">
+                        <h5 class="card-title">Total Unhides</h5>
+                        <h2 class="display-4" id="stat-total-unhides">0</h2>
+                        <p class="text-muted mb-0">Tabs restored</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <div class="card bg-light">
+                      <div class="card-body text-center">
+                        <h5 class="card-title">Last Action</h5>
+                        <p class="h5 mt-3" id="stat-last-action">Never</p>
+                        <p class="text-muted mb-0">Most recent hide/unhide</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <div class="card bg-light">
+                      <div class="card-body text-center">
+                        <h5 class="card-title">Extension Installed</h5>
+                        <p class="h5 mt-3" id="stat-install-date">-</p>
+                        <p class="text-muted mb-0">First installation date</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="text-center mt-3">
+                  <button class="btn btn-outline-secondary btn-sm" id="reset-stats">Reset Statistics</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Credits Section -->
+            <div class="card mb-3">
+              <div class="card-body">
+                <h4 class="card-title">Credits</h4>
+                
+                <h5 class="mt-3">Icons</h5>
+                <p>
+                  <a href="https://www.flaticon.com/free-icons/invisible" target="_blank" rel="noopener noreferrer">
+                    Invisible icons created by Andrean Prabowo - Flaticon
+                  </a>
+                </p>
+
+                <h5 class="mt-4">Frameworks & Libraries</h5>
+                <ul>
+                  <li><a href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer">Bootstrap 5</a> - UI Framework</li>
+                  <li><a href="https://icons.getbootstrap.com/" target="_blank" rel="noopener noreferrer">Bootstrap Icons</a> - Icon Library</li>
+                  <li><a href="https://github.com/mozilla/webextension-polyfill" target="_blank" rel="noopener noreferrer">WebExtension Polyfill</a> - Cross-browser Compatibility</li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../lib/browser-polyfill.min.js"></script>
+  <script src="../lib/bootstrap.bundle.min.js"></script>
+  <script type="module" src="options.js"></script>
+</body>
+</html>

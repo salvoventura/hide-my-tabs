@@ -1,0 +1,66 @@
+/**
+ * Hide My Tabs!
+ * File: src/mask/mask.css
+ * Author: Salvatore Ventura <salvoventura@gmail.com>
+ * Code assisted by Claude.ai
+ * 
+ * Mask Page Styles - Styling for the neutral page displayed
+ * when tabs are hidden, designed to look like a new tab.
+ */
+
+body {
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  color: #6c757d;
+}
+
+.container {
+  text-align: center;
+  max-width: 600px;
+}
+
+.logo {
+  width: 92px;
+  height: 92px;
+  margin: 0 auto 30px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.display-4 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #495057;
+}
+
+.lead {
+  font-size: 1.25rem;
+  margin-bottom: 30px;
+}
+
+.my-4 {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.alert {
+  border-radius: 12px;
+  border: none;
+  padding: 16px 20px;
+}
+
+.alert-info {
+  background-color: #cff4fc;
+  color: #055160;
+  border-left: 4px solid #0dcaf0;
+}

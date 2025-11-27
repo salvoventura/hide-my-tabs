@@ -1,0 +1,18 @@
+# Research or backup elements
+_resources/
+
+# Build artifacts
+src/build/
+src/dist/
+
+# Archive files (except source)
+*.zip
+*.tar
+*.gz
+*.bz2
+*.xz
+*.rar
+*.7z
+
+# Keep empty directories with .gitkeep
+!.gitkeep
