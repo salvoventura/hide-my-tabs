@@ -64,7 +64,7 @@ build-chrome: clean
 	
 	@echo "Creating Chrome manifest.json..."
 	@cat manifest.json | \
-		jq 'del(.background.scripts)' > $(BUILD_DIR)/chrome/manifest.json || \
+		jq 'del(.background.scripts, .data_collection_permissions)' > $(BUILD_DIR)/chrome/manifest.json || \
 		(cat manifest.json > $(BUILD_DIR)/chrome/manifest.json && \
 		 echo "  ⚠ jq not found, using original manifest (may have warnings)")
 	
@@ -86,7 +86,7 @@ build-firefox:
 	
 	@echo "Creating Firefox manifest.json..."
 	@cat manifest.json | \
-		jq 'del(.background.service_worker, .data_collection_permissions)' > $(BUILD_DIR)/firefox/manifest.json || \
+		jq 'del(.background.service_worker)' > $(BUILD_DIR)/firefox/manifest.json || \
 		(cat manifest.json > $(BUILD_DIR)/firefox/manifest.json && \
 		 echo "  ⚠ jq not found, using original manifest (may have warnings)")
 	
