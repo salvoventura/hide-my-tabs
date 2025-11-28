@@ -14,13 +14,9 @@
 
   "browser_specific_settings": {
     "gecko": {
-      "id": "hide-my-tabs@salvoventura.com"
-    },
-    "data_collection_permissions": {
-      "not_in_private_browsing": true,
-      "data": {
-        "non_features": [],
-        "shared": []
+      "id": "hide-my-tabs@salvoventura.com",
+      "data_collection_permissions": {
+        "required": ["none"]
       }
     }
   },
